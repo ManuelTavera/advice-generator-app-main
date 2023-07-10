@@ -9,13 +9,11 @@ export const WEIGHTS = {
 };
 
 export const COLORS = {
-  darkCyan: "hsl(185, 75%, 39%)",
-  desaturatedBlue: "hsl(229, 23%, 23%)",
-  grayishBlue: "hsl(227, 10%, 46%)",
-  darkGray: "hsl(0, 0%, 59%)",
   lightCyan: "hsl(193, 38%, 86%)",
   neonGreen: "hsl(150, 100%, 66%)",
-  darkBlueTwo: "hsl(228, 15%, 26%)"
+  grayishBlue: "hsl(217, 19%, 38%)",
+  darkGrayishBlue: "hsl(217, 19%, 24%)",
+  darkBlue: "hsl(218, 23%, 16%)",
 };
 
 export const QUERIES = {
