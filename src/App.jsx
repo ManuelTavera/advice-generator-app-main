@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { COLORS } from "../constant";
+import { COLORS, QUERIES } from "../constant";
 import desktopPattern from "../src/assets/pattern-divider-desktop.svg";
+import mobilePattern from "../src/assets/pattern-divider-mobile.svg";
 import dice from "../src/assets/icon-dice.svg";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           and taking action.
         </Message>
         <DesktopPattern src={desktopPattern} alt="Pattern desktop" />
+        <MobilePatter src={mobilePattern} alt="Pattern desktop" />
         <IconWrapper>
           <Icon src={dice} alt="Dice icon" />
         </IconWrapper>
@@ -32,7 +34,7 @@ const Wrapper = styled.main`
 
 const MessageWrapper = styled.div`
   background-color: ${COLORS["darkGrayishBlue"]};
-  width: clamp(375px, 80%, 575px);
+  width: clamp(340px, 80%, 575px);
   max-width: 100%;
   position: relative;
   padding: 40px;
@@ -40,6 +42,11 @@ const MessageWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   border-radius: 15px;
+
+  @media screen and (${QUERIES["phoneAndSmaller"]}) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 `;
 
 const Title = styled.p`
@@ -47,6 +54,11 @@ const Title = styled.p`
   color: ${COLORS["neonGreen"]};
   font-weight: 800;
   margin-bottom: 25px;
+  font-size: ${14 / 16}rem;
+
+  @media screen and (${QUERIES["phoneAndSmaller"]}) {
+    font-size: ${12 / 16}rem;
+  }
 `;
 
 const Message = styled.h1`
@@ -65,11 +77,33 @@ const Message = styled.h1`
   &::after {
     content: "”";
   }
+
+  @media screen and (${QUERIES["phoneAndSmaller"]}) {
+    font-size: ${24 / 16}rem;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 25px;
+  }
 `;
 
 const DesktopPattern = styled.img`
   width: 100%;
   margin-bottom: 40px;
+  display: block;
+
+  @media screen and (${QUERIES["phoneAndSmaller"]}) {
+    display: none;
+  }
+`;
+
+const MobilePatter = styled.img`
+  width: 100%;
+  margin-bottom: 30px;
+  display: none;
+
+  @media screen and (${QUERIES["phoneAndSmaller"]}) {
+    display: block;
+  }
 `;
 
 const IconWrapper = styled.div`

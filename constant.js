@@ -1,5 +1,5 @@
 export const BREAKPOINTS = {
-  phone: 860,
+  phone: 500,
   laptop: 1300,
 };
 
