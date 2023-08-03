@@ -1,21 +1,56 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { COLORS, QUERIES } from "../constant";
 import desktopPattern from "../src/assets/pattern-divider-desktop.svg";
 import mobilePattern from "../src/assets/pattern-divider-mobile.svg";
 import dice from "../src/assets/icon-dice.svg";
 
+const initialState = { id: null, advice: "", error: false, loading: false };
+
 function App() {
+  const [state, setState] = useState(initialState);
+
+  const fetchAdvice = () => {
+    setState({ ...state, loading: true });
+
+    fetch("https://api.adviceslip.com/advice")
+      .then((res) => res.json())
+      .then((data) => {
+        setState({
+          ...data.slip,
+          error: false,
+          loading: false,
+        });
+      })
+      .catch((error) => {
+        const { message } = error;
+        setState({ error: true, advice: message.text, loading: false });
+      });
+  };
+
+  useEffect(() => {
+    fetchAdvice();
+  }, []);
+
+  const addWhiteSpaces = (id) => {
+    if (id !== null) {
+      const newId = id
+        .toString()
+        .split("")
+        .map((item) => `${item}  `);
+      return newId;
+    }
+  };
+
   return (
     <Wrapper>
       <MessageWrapper>
-        <Title>A d v i c e # 1 1 7</Title>
-        <Message>
-          It is easy to sit up and take notice, what's difficult is getting up
-          and taking action.
-        </Message>
+        { /* prettier-ignore */ }
+        <Title>A  d  v  i  c  e  #  {addWhiteSpaces(state.id)}</Title>
+        <Message>{state.advice}</Message>
         <DesktopPattern src={desktopPattern} alt="Pattern desktop" />
         <MobilePatter src={mobilePattern} alt="Pattern desktop" />
-        <IconWrapper>
+        <IconWrapper fetching={state.loading} onClick={fetchAdvice}>
           <Icon src={dice} alt="Dice icon" />
         </IconWrapper>
       </MessageWrapper>
@@ -55,6 +90,7 @@ const Title = styled.p`
   font-weight: 800;
   margin-bottom: 25px;
   font-size: ${14 / 16}rem;
+  white-space: pre-wrap;
 
   @media screen and (${QUERIES["phoneAndSmaller"]}) {
     font-size: ${12 / 16}rem;
@@ -106,7 +142,7 @@ const MobilePatter = styled.img`
   }
 `;
 
-const IconWrapper = styled.div`
+const IconWrapper = styled.button`
   width: 70px;
   height: 70px;
   display: flex;
@@ -115,6 +151,14 @@ const IconWrapper = styled.div`
   background-color: ${COLORS["neonGreen"]};
   border-radius: 50%;
   margin-bottom: -75px;
+  border: none;
+  cursor: pointer;
+  pointer-events: ${(props) => (props.fetching ? "none" : "auto")};
+  transition: all 0.8s ease-in-out;
+
+  &:hover {
+    box-shadow: 0px 0px 30px ${COLORS["neonGreen"]};
+  }
 `;
 
 const Icon = styled.img`
